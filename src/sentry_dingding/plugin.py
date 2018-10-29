@@ -3,6 +3,7 @@
 import json
 
 import requests
+from django.utils.html import escape
 from sentry.plugins.bases.notify import NotificationPlugin
 
 import sentry_dingding
@@ -48,19 +49,17 @@ class DingDingPlugin(NotificationPlugin):
         send_url = DingTalk_API.format(token=access_token)
 
         metadata = event.get_event_metadata()
-
         data = {
             "msgtype": "markdown",
             "markdown": {
                 "title": "{0}".format(metadata["type"]),
                 "text": "#### {title}  \n > {message} [href]({url})".format(
-                    title=metadata["type"],
-                    message=event.message,
-                    url="{0}events/{1}/".format(group.get_absolute_url(), event.id)
+                    title=escape(metadata["type"]),
+                    message=event.message.encode('utf-8'),
+                    url="{0}events/{1}/".format(escape(group.get_absolute_url()), event.id)
                 )
             }
         }
-
         requests.post(
             url=send_url,
             headers={"Content-Type": "application/json"},
