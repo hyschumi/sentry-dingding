@@ -3,6 +3,7 @@
 import json
 
 import requests
+from datetime import datetime
 from sentry.plugins.bases.notify import NotificationPlugin
 
 import sentry_dingding
@@ -58,10 +59,10 @@ class DingDingPlugin(NotificationPlugin):
             'msgtype': 'markdown',
             'markdown': {
                 'title': '{project_name}:{type}:{level}'.format(project_name=project, level=level, type=type),
-                'text': '##### {project_name}:{type}:{level} \n > server: {server_name} \n Ip:{ips} \n\
-                        {msg} [view]({link})'.format(
+                'text': '##### {project_name} \n > type: {type} \n\n > level:{level} \n\n > time: {time}\
+                        \n\n > server: {server_name} \n\n > ip:{ips} \n\n > msg:{msg} \n\n >[view]({link})'.format(
                             project_name=project, level=level, type=type, server_name=server_name, ips=ips,
-                            link=link, msg=msg),
+                            link=link, msg=msg, time=datetime.now().strftime('%H:%M:%S')),
             },
         }
 
