@@ -53,6 +53,8 @@ class DingDingPlugin(NotificationPlugin):
         level = group.get_level_display().upper()
         link = group.get_absolute_url()
         server_name = event.get_tag('server_name')
+        env = event.get_tag('environment')
+        release = event.get_tag('release')
         ips = event.get_tag('ips')
         msg = event.error().encode('utf-8')
         data = {
@@ -60,9 +62,10 @@ class DingDingPlugin(NotificationPlugin):
             'markdown': {
                 'title': '{project_name}:{type}:{level}'.format(project_name=project, level=level, type=type),
                 'text': '##### {project_name} \n > type: {type} \n\n > level:{level} \n\n > time: {time}\
-                        \n\n > server: {server_name} \n\n > ip:{ips} \n\n > msg:{msg} \n\n >[view]({link})'.format(
+                        \n\n > server: {server_name} \n\n > ip:{ips} \n\n > env:{env} \n\n > release:{release}\
+                        \n\n > msg:{msg} \n\n >[view]({link})'.format(
                             project_name=project, level=level, type=type, server_name=server_name, ips=ips,
-                            link=link, msg=msg, time=datetime.now().strftime('%H:%M:%S')),
+                            link=link, msg=msg, time=datetime.now().strftime('%H:%M:%S'), env=env, release=release),
             },
         }
 
