@@ -24,6 +24,9 @@ setup(
         'requests',
     ],
     entry_points={
+        'sentry.apps': [
+            'sentry_dingding = sentry_dingding',
+        ],
         'sentry.plugins': [
             'sentry_dingding = sentry_dingding.plugin:DingDingPlugin'
         ]
